@@ -1,6 +1,4 @@
-library(plotly)
-library(shiny)
-library(shinymaterial)
+source("packages.R")
 
 shinyUI(material_page(
         nav_bar_color = "blue",
@@ -58,11 +56,31 @@ shinyUI(material_page(
                #in geographical details in ", tags$a(href = "https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data", "CSSE Date", target="_new"), " not to a real explosion of cases."),
                         
                         #uiOutput(ns("slider"))
-                    )
+                    ),
+                material_row(
+                   material_card(
+                       material_radio_button(input_id = "indicator_radio_button",
+                                          label = "Indicator : ",
+                                          choices = c(
+                                              "Confirmed cases" = "cc",
+                                              "Active cases" = "ac",
+                                              "Death" = "d",
+                                              "Recovered" = "r"
+                                          ),
+                                          color = "#ef5350")
+                   ))
                 ),
                 material_row(
                     material_column(width=12,
                                     plotlyOutput(outputId = "WorldMap",width = "100%", height = "1000")
+                    )
+                )
+            ),
+            
+            tagList(
+                tags$head(
+                    tags$style(
+                        "#indicator_radio_button {display: flex;}"
                     )
                 )
             )
