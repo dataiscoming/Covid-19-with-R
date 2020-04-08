@@ -1,4 +1,11 @@
-source("packages.R")
+#source("packages.R")
+
+library("shinyjs")
+library("shiny")
+library("tidyr")
+library("dplyr")
+library("plotly")
+library("shinymaterial")
 
 # Define server logic required to draw a histogram
 shinyServer(function(input, output){
@@ -12,7 +19,7 @@ shinyServer(function(input, output){
     
     # Import mapping table for countries
     df_mapping <- read.csv(
-        "https://raw.githubusercontent.com/dataiscoming/Covid-19-with-R/master/%231_input/countries_codes_and_coordinates.csv",
+        "https://raw.githubusercontent.com/dataiscoming/Covid-19-with-R/master/input/countries_codes_and_coordinates.csv",
         stringsAsFactors = FALSE)
     
     # Data mnipulation
@@ -112,7 +119,6 @@ shinyServer(function(input, output){
         ) %>% 
         colorbar(title = 'Number', tickprefix = '') %>%
         layout(
-            #title = 'Confirmed cases<br>Source:<a href="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv">CSSEGISandData</a>',
             geo = g
         )
     
@@ -127,7 +133,6 @@ shinyServer(function(input, output){
         ) %>% 
         colorbar(title = 'Number', tickprefix = '') %>%
         layout(
-            #title = 'Confirmed cases<br>Source:<a href="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv">CSSEGISandData</a>',
             geo = g
         )
     
@@ -142,7 +147,6 @@ shinyServer(function(input, output){
         ) %>% 
         colorbar(title = 'Number', tickprefix = '') %>%
         layout(
-            #title = 'Confirmed cases<br>Source:<a href="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv">CSSEGISandData</a>',
             geo = g
         )
     
@@ -157,7 +161,6 @@ shinyServer(function(input, output){
         ) %>% 
         colorbar(title = 'Number', tickprefix = '') %>%
         layout(
-            #title = 'Confirmed cases<br>Source:<a href="https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv">CSSEGISandData</a>',
             geo = g
         )
     
