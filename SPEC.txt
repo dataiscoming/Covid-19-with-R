@@ -1,0 +1,33 @@
+- 4 tabs : World, France, Other country, About
+
+- the nav bar :
+	.logo of dataiscoming
+	.the 4 tabs
+	.hidden, but clickable 
+
+- Tab World : 
+	.Show the number of confirmed/active/death/recovered cases for the last day for the whole world
+		.centerd number, same size box
+	.World Map for confirmed/active/death/recovered 
+		.slider for the date and change category inputs
+		.color change for each categories (red/red/black/green)
+		.reactive title
+	.Barplot of the daily cases 
+		
+-Tab France :
+	.Show the number of confirmed/active/death/recovered cases for the actual day
+		.centerd number, same size box
+	.bar plot of confirmed/active/death/recovered/new confirmed/new active/new death/new/recovered (change of colors)
+		.slider for the date and change category inputs
+		.color change for each categories (red/red/black/green)
+	
+-Tab Other country :
+	.input to choose the country
+	.same barplot than France
+	
+-Tab About :
+	.link to the data
+	.link to the code
+	
+- Other :
+	.add a spiner for the waiting time
