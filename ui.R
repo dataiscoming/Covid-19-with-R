@@ -1,58 +1,68 @@
-#source("packages.R")
-
+# Packages
 library("shinyjs")
 library("shiny")
 library("tidyr")
 library("dplyr")
 library("plotly")
 library("shinymaterial")
-library("shinydashboard")
 
-source("D:/#1_ART/2020/week_X_Covid_19_with_R/codes/world.R",encoding = "UTF-8")
-source("D:/#1_ART/2020/week_X_Covid_19_with_R/codes/france.R",encoding = "UTF-8")
+# modules
+source("./codes/data.R",encoding = "UTF-8")
+source("./codes/world.R",encoding = "UTF-8")
+source("./codes/france.R",encoding = "UTF-8")
+source("./codes/other_country.R",encoding = "UTF-8")
+source("./codes/about.R",encoding = "UTF-8")
 
+# UI definition
 shinyUI(material_page(
     
-        nav_bar_fixed = FALSE,
-        nav_bar_color = "Orange",
-        
-        title = "Covid-19",
-        shinyjs::useShinyjs(),
-        tags$head(
-        tags$head(tags$link(rel="shortcut icon", href="logo.jpg"))
-        ),
-        div(id = "wait", style = "    position: fixed;
-        top: 0rem;
-        margin: auto;
-        height: 100px;
-        width: 100px;
-        margin: 20% auto; /* Will not center vertically and won't work in IE6/7. */
-        left: 0;
-        right: 0;
-        opacity: 1;"),
-        
-        #---- material_side_nav ----
-        material_side_nav(
-            fixed = FALSE, 
-            background_color = "white",
-            image_source = "logo.jpg",
+    shinyjs::useShinyjs(),
+    
+    # Nav bar at the rop
+    title = "Covid-19",
+    nav_bar_color = "Orange",
+    nav_bar_fixed = FALSE,
+    
+    # favicon
+    tags$head(tags$link(rel="shortcut icon", href="logo.jpg")),
+    
+    # Side nav panel
+    material_side_nav(
+        fixed = FALSE, 
+        background_color = "White",
             
-            # Place side-nav tabs within side-nav
-            material_side_nav_tabs(
-                side_nav_tabs = c(
-                    "World" = "world_map",
-                    "France" = "france",
-                    "Other Country" = "other_country",
-                    "About" = "about"
-                )
-            )
+        # Logo of the blog
+        material_card(
+            depth = 0,
+            HTML("
+            <center>
+                <a href='http://www.dataiscoming.fr'>
+                    <img style='height:160px;width:160px;' src='logo.jpg'>
+                </a>
+            </center>
+                 ")
         ),
+
+        # Tab for the different panels in the side bar
+        material_side_nav_tabs(
+            side_nav_tabs = c(
+                "World" = "world_map",
+                "France" = "france",
+                "Other Country" = "other_country",
+                "About" = "about"
+            )
+        )
+    ),
         
-        #---- UI objects ----
-        worldUI('world'),
-        #tableOutput('table'),
+    # Module World
+    worldUI('world'),
+    
+    # Module France
+    franceUI('france'),
         
-        # Module France
-        franceUI('france')
-    )
-)
+    # Module Other country
+    other_countryUI('other_country'),
+        
+    # Module About
+    aboutUI('about')
+))

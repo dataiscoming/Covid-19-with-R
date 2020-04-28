@@ -6,7 +6,7 @@
 	.hidden, but clickable 
 
 - Tab World : 
-	.Show the number of confirmed/active/death/recovered cases for the last day for the whole world
+	.Show the number of confirmed/active/death/recovered and new cases for the last day for the whole world
 		.centerd number, same size box
 	.World Map for confirmed/active/death/recovered 
 		.slider for the date and change category inputs

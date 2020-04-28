@@ -1,5 +1,4 @@
-#source("packages.R")
-
+# packages
 #curl/openssl/httr/rmarkdown
 library("shinyjs")
 library("shiny")
@@ -7,14 +6,18 @@ library("tidyr")
 library("dplyr")
 library("plotly")
 library("shinymaterial")
-library("shinydashboard")
 
-source("D:/#1_ART/2020/week_X_Covid_19_with_R/codes/data.R",encoding = "UTF-8")
-source("D:/#1_ART/2020/week_X_Covid_19_with_R/codes/world.R",encoding = "UTF-8")
+# modules
+source("./codes/data.R",encoding = "UTF-8")
+source("./codes/world.R",encoding = "UTF-8")
+source("./codes/france.R",encoding = "UTF-8")
+source("./codes/other_country.R",encoding = "UTF-8")
+source("./codes/about.R",encoding = "UTF-8")
 
+# React log to follow the reactivity 
 options(shiny.reactlog = TRUE)
 
-# Define server logic required to draw a histogram
+# Define server 
 shinyServer(function(input, output){
 
     #################################################
@@ -31,7 +34,9 @@ shinyServer(function(input, output){
     
     #################################################
     # Module Other Country
+    callModule(module = other_country, id = "other_country", data = df)
     
     #################################################
     # Module About
+    callModule(module = about, id = 'about',data=df)
 })
