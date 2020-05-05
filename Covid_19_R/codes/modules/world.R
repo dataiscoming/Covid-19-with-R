@@ -6,6 +6,12 @@
 #        --> define reactive values : title, color, france data
 #        --> 6 outputs : 4 figures, 1 map and 1 barplot
 
+source("./codes/functions/renderBOX.R",encoding = "UTF-8")
+source("./codes/functions/renderBOXui.R",encoding = "UTF-8")
+source("./codes/functions/reactive_color.R",encoding = "UTF-8")
+source("./codes/functions/reactive_var.R",encoding = "UTF-8")
+source("./codes/functions/reactive_barplot.R",encoding = "UTF-8")
+
 # Define the UI
 worldUI <- function(id) {
   ns <- NS(id)
@@ -23,44 +29,16 @@ worldUI <- function(id) {
         material_row(
           
           # Show the number of total confirmed cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Total cases", 
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm1")))))
-          ),
+          renderBOXui(id,"Total cases","wm1"),
           
           # Show the number of total actives cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Active cases",
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm2")))))
-            ),
+          renderBOXui(id,"Active cases","wm2"),
           
           # Show the number of Death actives cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Deaths", 
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm3")))))
-          ),
+          renderBOXui(id,"Deaths","wm3"),
           
           # Show the number of total recovered cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Recovered",
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm4")))))
-          )
+          renderBOXui(id,"Recovered","wm4"),
     ))),
     
     tags$br(),
@@ -214,40 +192,16 @@ world <- function(input, output, session, data = df){
     filter(date == max(data$date))
   
   # Box defintion 1 : total confirmed cases
-  output$wm1 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_cc,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm1 <- renderBOX(df_world_max$max_cc)
   
   # Box definition 2 : total active cases
-  output$wm2 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_ac,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm2 <- renderBOX(df_world_max$max_ac)
   
   # Box definition 3 : total death cases
-  output$wm3 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_d,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm3 <- renderBOX(df_world_max$max_d)
   
   # Box definition 4 : total recovered cases
-  output$wm4 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_r,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm4 <- renderBOX(df_world_max$max_r)
   
   ##############################################
   ### World map
@@ -293,47 +247,12 @@ world <- function(input, output, session, data = df){
   ### Barplot 
   
   # Define the REACTIVE variable to show, thanks to the selected input in the UI
-  df3 <- reactive({
-    df_inter %>%
-      mutate(show = case_when(input$c1 == 'cc' ~ max_cc,
-                              input$c1 == 'ac' ~ max_ac,
-                              input$c1 == 'd' ~ max_d,
-                              input$c1 == 'r' ~ max_r,
-                              input$c1 == 'ncc' ~ max_ncc,
-                              input$c1 == 'nac' ~ max_nac,
-                              input$c1 == 'nd' ~ max_nd,
-                              input$c1 == 'nr' ~ max_nr))
-  })
+  df_BP <- reactive({reactive_var(data_frame = df_inter, input = input$c1)})
   
   # Define the REACTIVE colors of the bars in the barplot
-  col2 <- reactive({
-    if(input$c1 %in% c("cc","ncc","ac","nac")){col = '#EF3B2C'
-    }else if(input$c1 %in% c("d","nd")){col = "#737373"
-    }else if(input$c1 %in% c("r","nr")){col= "#41AB5D"}
-    return(col)
-  })
+  color <- reactive({reactive_color(input = input$c1)})
   
   # barplot
-  output$World_barplot <- renderPlotly({
-    df3 <- df3()
-    title <- paste0("Daily ",title())
-    col2 <- col2()
-    
-    fig_wbp <- plot_ly(data = df3,
-                       x = ~date,
-                       y = ~show,
-                       name = "",
-                       type = "bar",
-                       marker = list(color = col2)
-    ) %>% 
-      layout(title = title,
-        yaxis = list(
-        title = "Number of cases",
-        zeroline=F
-      ))
-    
-    # Results
-    return(fig_wbp)
-  })
+  output$World_barplot <- renderPlotly({reactive_barplot(df = df_BP(), col =color(), title=title())})
   
 } # End of server definition

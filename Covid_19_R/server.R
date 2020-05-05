@@ -8,11 +8,11 @@ library("plotly")
 library("shinymaterial")
 
 # modules
-source("./codes/data.R",encoding = "UTF-8")
-source("./codes/world.R",encoding = "UTF-8")
-source("./codes/france.R",encoding = "UTF-8")
-source("./codes/other_country.R",encoding = "UTF-8")
-source("./codes/about.R",encoding = "UTF-8")
+source("./codes/functions/data.R",encoding = "UTF-8")
+source("./codes/modules/world.R",encoding = "UTF-8")
+source("./codes/modules/france.R",encoding = "UTF-8")
+source("./codes/modules/other_country.R",encoding = "UTF-8")
+source("./codes/modules/about.R",encoding = "UTF-8")
 
 # React log to follow the reactivity 
 options(shiny.reactlog = TRUE)
@@ -22,7 +22,7 @@ shinyServer(function(input, output){
 
     #################################################
     # Module Data
-    df <- callModule(module = data, id = "data")
+    df <- data()
     
     #################################################
     # Module world

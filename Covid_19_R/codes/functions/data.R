@@ -1,8 +1,8 @@
-# Module data :  
+# Function data :  
 # this module get the data from John Hopkins github repository
 # And join all dataframe into one data frame 
 
-data <- function(input, output, session){
+data <- function(){
   
   # Import the data for john-hopkins-hospital
   PATH <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/"
@@ -95,9 +95,9 @@ data <- function(input, output, session){
            keep = case_when(compte == 1 ~ "OK",
                             compte > 1 & is.na(value_confirmed)  ~ "KO",
                             compte > 1 & !is.na(value_confirmed) ~ "OK")) %>%
+    ungroup() %>%
     filter(keep == 'OK') %>%
     select(-compte, -keep) %>% 
-    ungroup() %>%
     
     # Change the NA values to 0 and of the active cases variables
     mutate(value_confirmed = replace_na(value_confirmed,0),
