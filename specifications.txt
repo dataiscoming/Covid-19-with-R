@@ -1,0 +1,258 @@
+# 1. UI
+
+- 4 tabs : World, France, Other country, About
+
+- Nav bar :
+	.the bar
+		.bar hidden, but clickable n the top-left
+	.Composition
+		.logo of dataiscoming, with the link to the blog
+		.the 4 tabs
+
+- Tab World : 
+	.Show the number of confirmed/active/death/recovered cases for the last day registered for the whole world
+		.four boxes in a line, same size box, centerd number, thousand and million separators
+	.Show 2 input selectors in a row :
+		.Slider date
+		.variables selector
+	.World Map for confirmed/active/death/recovered cases
+		.title, color, data are reative
+		.color change for each categories (red/red/black/green)
+	.Barplot of the daily confirmed/active/death/recovered cases
+		.title, color, data are reative
+		.color change for each categories (red/red/black/green)
+		
+- Tab France :
+	.same organisation than the world tab, except :
+		.No slider date input in the second row
+		.No map
+		.data are about france
+	
+- Tab Other country :
+	.same organisation than the world tab, except :
+		.No slider date input in the second row
+		.No map
+		.data are about a country selected thanks to an input in a row above all other rows
+	
+- Tab About :
+	.link to the data
+	.link to the code
+	.link to the blog
+	
+- Other :
+	.add a spiner for the waiting time
+	
+# 2. Functions
+
+- Data
+	.get data from John hopkins and tranform the data structures, because there is no date columns but a columns for each date
+	. output :	
+		. global dataframe every country for every date
+		. dataframe for world grouped by date
+		. dataframe for France at every date
+		. dataframe for other country at every date
+		. List of the country name
+		. Date maximum of the data
+- select_varINPUTui
+	. UI to select the active variable
+	. possible choice : confirmed, active, death, recovered, new confirmed, new active, new death, new recovered cases
+- df_max_date
+	. Select the data for a specific date
+	. input : a dataframe and a date
+	. output : a filtered dataframe
+- renderBOX
+	. Box with a figure
+- renderBOXui
+	. UI to render a figure from the function renderBOX
+- reactive_color
+	. select the color corresponding to the variables selected from the function select_varINPUTui
+	.(red for confirmed, active, new confirmed and new active cases / black for death and new death cases / green for recovered and new recovered cases)
+	. input : input (from the function select_varINPUTui)
+	. output : a color (text)
+- reactive_title
+	. Select a text according to the variable selected with the function select_varINPUTui
+	. input : title
+	. output : title (text)
+- reactive_var
+	. Create a new variable in a dataframe according to the variable selected with the function select_varINPUTui. This variable will be shown in the barplot or world map
+	. input : dataframe, input from the function select_varINPUTui
+	. output : a new dataframe with one more column or one modified column
+- reactive_barplot
+	. Create a reactive barplot according the values from the inputs from hte function reactive_var, reactive_color, reactive_title
+	. input : dataframe, colour, title
+	. output : a plot (barplot)
+- barPLOTui
+	. UI to render the plot design with the function reactive_barplot
+
+# 3. modules
+
+-World
+	.UI : 
+		. First row : use 4 times function renderBOXui
+		. Second row : 1 input slider date and 1 use of the function select_varINPUTui
+		. third row : World map
+		. Fourth row : 1 use of the function of barPLOTui
+	.server :
+		. Reactive data for the slider date
+		. 1 use of the function reactive title
+		. 1 use of the function df_max_date and 4 use of the funcion renderBOX
+		. Definition of the colour for the world map and the world map
+		. 1 use of the functions reactive color, reactive title, reactive_barplot
+	
+-France
+	.UI : 
+		. First row : use 4 times function renderBOXui
+		. Second row : 1 use of the function select_varINPUTui
+		. third row : 1 use of the function of barPLOTui
+	.server :
+		. 1 use of the function reactive title
+		. 1 use of the function df_max_date and 4 use of the funcion renderBOX
+		. 1 use of the functions reactive color, reactive title, reactive_barplot
+	
+-Other country
+	.UI : 
+		. First row : UI to select a country created in the server part
+		. Second row : use 4 times function renderBOXui  
+		. third row : 1 use of the function select_varINPUTui
+		. Fourth row : 1 use of the function of barPLOTui
+	.server :
+		. renderUI to select the country
+		. Data filering wiht the country selected
+		. 1 use of the function reactive title
+		. 1 use of the function df_max_date and 4 use of the funcion renderBOX
+		. Definition of the colour for the world map and the world map
+		. 1 use of the functions reactive color, reactive title, reactive_barplot
+	
+-About
+	.UI : 
+		. First row : data information
+		. Second row : blog information
+	.server :
+		. Get the max date from the data function
+
+# 4. Tests
+
+- Unit test for function data
+	. global dataframe every country for every date
+		. has 11 column
+		. check data for the 1st march : 
+			. France confirmed values is 130 
+			. has 7400 rows
+	. dataframe for world grouped by date
+		. has 9 column
+		. check data for the 1st march : 
+			. 2020-03-01 confirmed values is 87664 
+			. has 40 rows
+	. dataframe for France at every date
+		. has 11 column
+		. check data for the 1st march : 
+			. 2020-03-01 confirmed values is 130 
+			. has 40 rows
+	. List of the country name
+		. List of 245 countries
+		. no duplicate
+	. Date maximum of the data 
+		. has to be a date superior to the 2020-01-21
+- Unit test for function df_max_date
+	. has to be a date superior to the 2020-01-21
+	. has to be 2020-03-01 if I select 2020-03-01
+- Unit test for function reactive_color
+	. has to be red (#EF3B2C) if I select confirmed case
+	. has to be black (#737373) if I select new death case
+	. has to be grenn (#41AB5D) if I select recovered case
+- Unit test for function reactive_var
+	. If max_ac (active cases) is selected, the data for france at the date 2020-03-01 is 116
+- Unit test for function reactive_title
+	. If max_cc (confirmed cases) is selected, then it render "total cases"
+	. If max_nd (new death cases) is selected, then it render "new death"
+- Unit test for function reactive_barplot
+	. Render a plot with a title and red colors for max_cc selected 
+- Functional test
+	. UI :
+		. The nav bar is hiden
+		. The nav bar is clickable
+		. The nav bar is composed of a clickable image going to the blog at the top, 
+		. The nav bar is composed of four clickable tab under the clickable image
+		. The clik to the tab world works
+		. The clik to the tab france works
+		. The clik to the tab other country works
+		. The clik to the tab about works
+		. Every figures rendered are centered with a thousand and million separator
+		. The variable selector UI works
+	. For the 2020-03-01 :
+		. Module World :
+			. First row : total cases = 87664 / active cases = 41968/ death = 2990/ recovered = 42706
+			. Slider date goes to 2020-03-01
+			. World map is rendered
+			. The World map is well colored when the variables is changed
+			. The World map is well titled when the variables is changed
+			. the Barplot is rendered
+			. The barplot is well colored when the variables is changed
+			. The barpot is well titled when the variables is changed
+			. China on the map is very red compared to other country (with the figure 79932 with the variable confirmed cases)
+			. The barplot show a step the 2020-02-13 with the figure 60193 with the variable confirmed cases, when we pass with the mouse
+			. China on the map is very red compared to other country (with the figure 34898 with the variable active cases)
+			. The barplot show the figure 52527 at the 2020-02-13 with a step with the variable active cases, when we pass with the mouse
+			. China on the map is very black compared to other country (with the figure 2872 with the variable death cases)
+			. The barplot show the figure 1371 at the 2020-02-13 with the variable death cases, when we pass with the mouse
+			. China on the map is very green compared to other country (with the figure 42162 with the variable recovered cases)
+			. The barplot show the figure 6295 at the 2020-02-13 with the variable recovered cases, when we pass with the mouse
+			. China and Italy on the map is very red compared to other country (with the figure 576 and 566 with the variable new confirmed cases)
+			. The barplot show the figure 15147 at the 2020-02-13 witch is a great increase for that day with the variable new confirmed cases, when we pass with the mouse
+			. Italy on the map is very red compared to other country (with the figure 524 with the variable new active cases)
+			. The barplot show the figure 13759 at the 2020-02-13 witch is a great increase for that day with the variable new_active cases, when we pass with the mouse
+			. China on the map is very black compared to other country (with the figure 35 with the variable new death cases)
+			. The barplot show the figure 253 at the 2020-02-13 with the variable new death cases, when we pass with the mouse
+			. China on the map is very green compared to other country (with the figure 2842 with the variable new recovered cases)
+			. The barplot show the figure 1145 at the 2020-02-13 with the variable new recovered cases, when we pass with the mouse
+		. Module France :
+			. First row : total cases = 130 / active cases = 116/ death = 2/ recovered = 12
+			. Slider date goes to 2020-03-01
+			. the Barplot is rendered
+			. The barplot is well colored when the variables is changed
+			. The barpot is well titled when the variables is changed
+			. The barplot show the figure 11 the 2020-02-13 with the variable confirmed cases, when we pass with the mouse
+			. The barplot show the figure 9 at the 2020-02-13 with the variable active cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-15 with the variable death cases, when we pass with the mouse
+			. The barplot show the figure 2 at the 2020-02-13 with the variable recovered cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-15 with the variable new confirmed cases, when we pass with the mouse
+			. The barplot show the figure 3 at the 2020-02-26 with the variable new_active cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-15 with the variable new death cases, when we pass with the mouse
+			. The barplot show the figure 2 at the 2020-02-15 with the variable new recovered cases, when we pass with the mouse
+		. Module Other country :
+			. First country selected is the USA
+			. First row : total cases = 74 / active cases = 66/ death = 1/ recovered = 7
+			. Slider date goes to 2020-03-01
+			. the Barplot is rendered
+			. The barplot is well colored when the variables is changed
+			. The barpot is well titled when the variables is changed
+			. The barplot show the figure 13 the 2020-02-13 with the variable confirmed cases, when we pass with the mouse
+			. The barplot show the figure 10 at the 2020-02-13 with the variable active cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-29 with the variable death cases, when we pass with the mouse
+			. The barplot show the figure 3 at the 2020-02-13 with the variable recovered cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-13 with the variable new confirmed cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-13 with the variable new_active cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-29 with the variable new death cases, when we pass with the mouse
+			. The barplot show the figure 3 at the 2020-02-09 with the variable new recovered cases, when we pass with the mouse
+			. The country is change to "Italy"
+			. The new figures for the first row is : total cases = 1694 / active cases = 1577/ death = 34/ recovered = 83
+			. Slider date goes to 2020-03-01
+			. the Barplot is rendered
+			. The barplot is well colored when the variables is changed
+			. The barpot is well titled when the variables is changed
+			. The barplot show the figure 3 the 2020-02-13 with the variable confirmed cases, when we pass with the mouse
+			. The barplot show the figure 3 at the 2020-02-13 with the variable active cases, when we pass with the mouse
+			. The barplot show the figure 1 at the 2020-02-21 with the variable death cases, when we pass with the mouse
+			. The barplot show the figure 45 at the 2020-02-27 with the variable recovered cases, when we pass with the mouse
+			. The barplot show the figure 17 at the 2020-02-21 with the variable new confirmed cases, when we pass with the mouse
+			. The barplot show the figure 91 at the 2020-02-23 with the variable new_active cases, when we pass with the mouse
+			. The barplot show the figure 4 at the 2020-02-24 with the variable new death cases, when we pass with the mouse
+			. The barplot show the figure 42 at the 2020-02-27 with the variable new recovered cases, when we pass with the mouse
+		. Module About :
+			. Title are well rendered
+			. Text are well rendered
+			. The link to the data github repository of John Hopkins works
+			. The date is 2020-03-01
+			. The link to the blog works
+			. The link to the data github repository of the app works
+
