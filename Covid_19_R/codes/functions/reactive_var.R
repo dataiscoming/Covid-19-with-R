@@ -1,4 +1,6 @@
-# Reactive variable to show in the Barplot
+# This function will create a reactive variable shown in the Barplot
+# Input : a dataframe, a variable selected with the function select_varINPUTui 
+# ouput : a dataframe with a new column or a modified column
 
 reactive_var <- function(data_frame,input){
   return(

@@ -1,4 +1,6 @@
-# reactive bar pot definition
+# This function produce a barplot according a dataframe, a color and title produced in other functions
+# Input :  a reactive dataframe, a reactive color, a reactive title
+# ouput : a barplot
 
 reactive_barplot <- function(df, col, title){
 

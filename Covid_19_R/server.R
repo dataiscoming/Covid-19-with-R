@@ -1,3 +1,7 @@
+# Call of the packages needed, define UI 
+# Call of the function data
+# Call of the 4 modules : World, France, Other country and About
+
 # packages
 #curl/openssl/httr/rmarkdown
 library("shinyjs")
@@ -21,7 +25,7 @@ options(shiny.reactlog = TRUE)
 shinyServer(function(input, output){
 
     #################################################
-    # Module Data
+    # Function Data
     df <- data()
     
     #################################################

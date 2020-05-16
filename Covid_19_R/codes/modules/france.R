@@ -1,10 +1,21 @@
 # Module France : 
 # UI --> 4 outputs to show figures
-#    --> 2 inputs to select date and variables 
+#    --> 1 inputs to select the variable
 #    --> 1 output that is the barplot
 # SERVER --> use data from the module data
 #        --> define reactive values : title, color, france data
 #        --> 5 outputs : 4 figures and 1 barplot
+
+# Functions
+source("./codes/functions/renderBOX.R",encoding = "UTF-8")
+source("./codes/functions/renderBOXui.R",encoding = "UTF-8")
+source("./codes/functions/reactive_color.R",encoding = "UTF-8")
+source("./codes/functions/reactive_var.R",encoding = "UTF-8")
+source("./codes/functions/select_varINPUTui.R",encoding = "UTF-8")
+source("./codes/functions/reactive_barplot.R",encoding = "UTF-8")
+source("./codes/functions/barPLOTui.R",encoding = "UTF-8")
+source("./codes/functions/reactive_title.R",encoding = "UTF-8")
+source("./codes/functions/df_max_date.R",encoding = "UTF-8")
 
 # Define the UI
 franceUI <- function(id) {
@@ -23,44 +34,16 @@ franceUI <- function(id) {
         material_row(
           
           # Show the number of total confirmed cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Total cases",
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm1")))))
-          ),
+          renderBOXui(id,"Total cases","wm1"),
           
           # Show the number of total actives cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Active cases",
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm2")))))
-          ),
+          renderBOXui(id,"Active cases","wm2"),
           
           # Show the number of Death actives cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Deaths", 
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm3")))))
-          ),
+          renderBOXui(id,"Deaths","wm3"),
           
           # Show the number of total recovered cases in a box
-          material_column(
-            width = 3,
-            div(style = "text-align:center",
-                material_card(
-                  title = "Recovered", 
-                  depth = 3, 
-                  div(style = "height:75px",uiOutput(ns("wm4")))))
-          )
+          renderBOXui(id,"Recovered","wm4")
         ))),
     
     tags$br(),
@@ -72,72 +55,16 @@ franceUI <- function(id) {
         offset = 1,
         material_row(
           
-          # Input : slider date to select a date for the map and plot
-          material_column(
-            width = 8,
-            material_card(
-              depth = 3,
-              div(
-                style = "height:100px",
-                align = "center",
-                sliderInput(inputId = ns("slider_date"),
-                            label="Date:",
-                            min = as.Date("2020-02-01"),
-                            max = as.Date(Sys.Date()-1),
-                            value = as.Date(Sys.Date()-1),
-                            timeFormat="%Y-%m-%d",
-                            animate = animationOptions(interval = 200,
-                                                       playButton = "Play",
-                                                       pauseButton = "Pause"),
-                            width = "100%")
-                )
-              )
-          ),
-          
           # Input : Select one input that is the variable used for the map and plot 
-          material_column(
-            width = 4,
-            material_card(
-              depth = 3,
-              align = "center",
-              div(style = "height:100px",
-                  selectInput(inputId = ns("c1"), 
-                              label = "Variable:",
-                              c("Total cases" = "cc",
-                                "Active cases" = "ac",
-                                "Death" = "d",
-                                "Recovered" = "r",
-                                "New confirmed cases"="ncc",
-                                "New active cases"="nac",
-                                "New death"="nd",
-                                "New recovered"="nr"
-                               )
-                              )
-                  )
-            ))
+          select_varINPUTui(id,"c1",12)
     ))),
     
     # Output : Show the barplot according to the input selected above
-    material_row(
-      material_column(
-        width=10,
-        offset = 1,
-        material_card(
-          div(
-            align = "center",
-            plotlyOutput(
-              outputId = ns("france_barplot"),
-              width = "100%", 
-              height = "100%")
-          )
-        )
-      )
-    )
+    barPLOTui(id,"france_barplot")
   )
   
 } # End of UI definition
   
-
 ###########################################################
 # Define server for France tab
 
@@ -146,122 +73,37 @@ france <- function(input,output,session,data = df){
   ################################################
   #### Common steps
   
-  # Define the reactive title of the plot 
-  title <- reactive({
-    if(input$c1 == 'cc'){title = "total cases"
-    }else if(input$c1 == 'ac'){title = "active cases"
-    }else if(input$c1 == 'd'){title = "death"
-    }else if(input$c1 == 'r'){title = "recovered"
-    }else if(input$c1 == 'ncc'){title = "new confirmed cases"
-    }else if(input$c1 == 'nac'){title = "new active cases"
-    }else if(input$c1 == 'nd'){title = "new death"
-    }else if(input$c1 == 'nr'){title = "new recovered"}
-    return(title)
-  })
-  
-  # Define the data used in France (not reactive)
-  df_inter <- data %>%
-    filter(Alpha.3.code == "FRA") %>%
-    group_by(date) %>%
-    summarise(max_cc = sum(value_confirmed),
-              max_ac = sum(value_active),
-              max_d = sum(value_death),
-              max_r = sum(value_recovered),
-              max_ncc = sum(new_confirmed_case),
-              max_nac = sum(new_active_case),
-              max_nd = sum(new_death),
-              max_nr = sum(new_recovered))
+  # Define the reactive title
+  title <- reactive({reactive_title(input=input$c1)})
   
   ################################################
   ### Number information in boxes
 
-  # Define the max value orther different variables from df_inter
-  df_world_max <- df_inter %>%
-    filter(date == max(data$date))
+  # Define the max value orther different variables from df_grp_date_FRA
+  df_world_max <- df_max_date(data$df_grp_FRA, data$max_date) 
   
   # Box defintion 1 : total confirmed cases
-  output$wm1 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_cc,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm1 <- renderUI(renderBOX(number=df_world_max$max_cc))
   
   # Box definition 2 : total active cases
-  output$wm2 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_ac,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm2 <- renderUI(renderBOX(number=df_world_max$max_ac))
   
   # Box definition 3 : total death cases
-  output$wm3 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_d,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm3 <- renderUI(renderBOX(number=df_world_max$max_d))
   
   # Box definition 4 : total recovered cases
-  output$wm4 <- renderUI({
-    HTML(
-      paste0(
-        "<div class='text-right'><span style='font-size:28px'>",prettyNum(df_world_max$max_r,big.mark =" "),
-        "</span></div>"
-      ))
-  })
+  output$wm4 <- renderUI(renderBOX(number=df_world_max$max_r))
   
   ##############################################
   ### Barplot 
   
   # Define the REACTIVE variable to show, thanks to the selected input in the UI
-  df3 <- reactive({
-    df_inter %>%
-      mutate(show = case_when(input$c1 == 'cc' ~ max_cc,
-                              input$c1 == 'ac' ~ max_ac,
-                              input$c1 == 'd' ~ max_d,
-                              input$c1 == 'r' ~ max_r,
-                              input$c1 == 'ncc' ~ max_ncc,
-                              input$c1 == 'nac' ~ max_nac,
-                              input$c1 == 'nd' ~ max_nd,
-                              input$c1 == 'nr' ~ max_nr))
-  })
+  df_BP <- reactive({reactive_var(data_frame = data$df_grp_FRA, input = input$c1)})
   
   # Define the REACTIVE colors of the bars in the barplot
-  col2 <- reactive({
-    if(input$c1 %in% c("cc","ncc","ac","nac")){col = '#EF3B2C'
-    }else if(input$c1 %in% c("d","nd")){col = "#737373"
-    }else if(input$c1 %in% c("r","nr")){col= "#41AB5D"}
-    return(col)
-  })
+  color <- reactive({reactive_color(input = input$c1)})
   
-  # Barplot  definition
-  output$france_barplot <- renderPlotly({
-    # Reactive variables Needed : data df3, the title of the plot, and the colors
-    df3 <- df3()
-    title <- paste0("Daily ",title(), " in France")
-    col2 <- col2()
-    
-    # Barplot
-    fig_wbp <- plot_ly(data = df3,
-                       x = ~date,
-                       y = ~show,
-                       name = "",
-                       type = "bar",
-                       marker = list(color = col2)
-    ) %>% 
-      layout(title = title,
-             yaxis = list(
-               title = "Number of cases",
-               zeroline=F
-             ))
-    
-    # Results
-    return(fig_wbp)
-  })
+  # barplot definition
+  output$france_barplot <- renderPlotly({reactive_barplot(df = df_BP(), col =color(), title=title())})
   
 } # End of server definition

@@ -1,7 +1,12 @@
-# The ui part for the function renderBOX to render some figures
+# This function will render the UI created with the function renderBOX
+# Input : a session id, a title meaning the variable shown, the output name from UI created with the function renderBOX
+# ouput : UI 
 
 renderBOXui <- function(id,TITLE, OUTPUT){
+  # Namespace ID
   ns <- NS(id)
+  
+  # UI rendered
   return(material_column(
     width = 3,
     div(style = "text-align:center",

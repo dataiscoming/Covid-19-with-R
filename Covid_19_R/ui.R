@@ -1,3 +1,7 @@
+# Call of the packages needed
+# Define UI for the left nav bar
+# Call of the 4 modules : World, France, Other country and About
+
 # Packages
 library("shinyjs")
 library("shiny")

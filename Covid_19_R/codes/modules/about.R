@@ -1,5 +1,5 @@
 # About module :
-# UI --> 1 output that is the date of he update of the data
+# UI --> 1 output that is the date of the update of the data
 # SERVER --> get the maximum date of update of the data
 
 # Define UI
@@ -18,7 +18,7 @@ aboutUI <- function(id) {
         offset = 1,
         h2("Data"),
         tags$div(
-          HTML("<p>The data comes from the John Hopkins dataset stored in the <a href='https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/'>github repository</a></p>")
+          HTML("<p>The data comes from the John Hopkins dataset stored in the <a href='https://github.com/CSSEGISandData/COVID-19/tree/master/csse_covid_19_data/csse_covid_19_time_series'>github repository</a></p>")
         ),
         textOutput(outputId = ns("update"))
         )),
@@ -45,7 +45,7 @@ about <- function(input,output,session,data=df){
   
   # maximum date of the update
   output$update <- renderText(
-    paste0("The data are updated to the ",as.character(max(data$date)),".")
+    paste0("The data are updated to the ",as.character(max(data$df_grp_all_country$date)),".")
   )
   
 } # End of server definition

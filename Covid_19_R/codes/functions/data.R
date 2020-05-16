@@ -1,6 +1,7 @@
 # Function data :  
 # this module get the data from John Hopkins github repository
 # And join all dataframe into one data frame 
+# It creates sepcific dataframe for every modules and store a list a the countries and the date maximum
 
 data <- function(){
   
@@ -17,7 +18,7 @@ data <- function(){
     stringsAsFactors = FALSE)
   
   # Data manipulation
-  df <- 
+  df_grp_all_country <- 
     # Select only needed variables in df_mapping
     df_mapping %>% 
     select(Country,Alpha.3.code) %>% 
@@ -32,7 +33,7 @@ data <- function(){
                 
                 # Sum of the variables (confirmed cases, death and recovered) grouped by the country names and not the province
                 group_by(Country.Region, date) %>%
-                summarise(value_confirmed = sum(value)) %>%
+                summarise(max_cc = sum(value)) %>%
                 mutate(date2 = gsub("X","0",date),
                        date3 = sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
                        date4 = paste0(sapply(strsplit(date2,"[.]"), "[[" , 1),"-",
@@ -55,7 +56,7 @@ data <- function(){
                 pivot_longer(cols = colnames(df_death)[5:length(colnames(df_death))], names_to = "date") %>%
                 select(-Lat,-Long) %>%
                 group_by(Country.Region, date) %>%
-                summarise(value_death = sum(value)) %>%
+                summarise(max_d = sum(value)) %>%
                 mutate(date2 = gsub("X","0",date),
                        date3 = sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
                        date4 = paste0(sapply(strsplit(date2,"[.]"), "[[" , 1),"-",
@@ -75,7 +76,7 @@ data <- function(){
                 pivot_longer(cols = colnames(df_recovered)[5:length(colnames(df_recovered))], names_to = "date") %>%
                 select(-Lat,-Long) %>%
                 group_by(Country.Region, date) %>%
-                summarise(value_recovered = sum(value)) %>%
+                summarise(max_r = sum(value)) %>%
                 mutate(date2 = gsub("X","0",date),
                        date3 = sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
                        date4 = paste0(sapply(strsplit(date2,"[.]"), "[[" , 1),"-",
@@ -93,41 +94,62 @@ data <- function(){
     group_by(Alpha.3.code) %>%
     mutate(compte = length(Alpha.3.code),
            keep = case_when(compte == 1 ~ "OK",
-                            compte > 1 & is.na(value_confirmed)  ~ "KO",
-                            compte > 1 & !is.na(value_confirmed) ~ "OK")) %>%
+                            compte > 1 & is.na(max_cc)  ~ "KO",
+                            compte > 1 & !is.na(max_cc) ~ "OK")) %>%
     ungroup() %>%
     filter(keep == 'OK') %>%
     select(-compte, -keep) %>% 
     
     # Change the NA values to 0 and of the active cases variables
-    mutate(value_confirmed = replace_na(value_confirmed,0),
-           value_death = replace_na(value_death,0),
-           value_recovered = replace_na(value_recovered,0),
+    mutate(max_cc = replace_na(max_cc,0),
+           max_d = replace_na(max_d,0),
+           max_r = replace_na(max_r,0),
            date = replace_na(date,max(na.omit(date),na.rm = TRUE)),
-           value_active = value_confirmed-value_death-value_recovered
+           max_ac = max_cc-max_d-max_r
     ) %>%
     
     # Create new variables about new cases every day
     group_by(Country) %>%
-    mutate(new_confirmed_case = value_confirmed-lag(value_confirmed),
-           new_death = value_death-lag(value_death),
-           new_recovered = value_recovered-lag(value_recovered),
-           new_active_case = value_active-lag(value_active),
-           new_active_case = case_when(new_active_case < 0 ~ 0,
-                                       new_active_case >= 0 ~ new_active_case),
-           new_confirmed_case = case_when(new_confirmed_case < 0 ~ 0,
-                                          new_confirmed_case >= 0 ~ new_confirmed_case),
-           new_death = case_when(new_death < 0 ~ 0,
-                                 new_death >= 0 ~ new_death),
-           new_recovered = case_when(new_recovered < 0 ~ 0,
-                                     new_recovered >= 0 ~ new_recovered)) %>%
+    mutate(max_ncc = max_cc-lag(max_cc),
+           max_nd = max_d-lag(max_d),
+           max_nr = max_r-lag(max_r),
+           max_nac = max_ac-lag(max_ac),
+           max_nac = case_when(max_nac < 0 ~ 0,
+                               max_nac >= 0 ~ max_nac),
+           max_ncc = case_when(max_ncc < 0 ~ 0,
+                               max_ncc >= 0 ~ max_ncc),
+           max_nd = case_when(max_nd < 0 ~ 0,
+                              max_nd >= 0 ~ max_nd),
+           max_nr = case_when(max_nr < 0 ~ 0,
+                              max_nr >= 0 ~ max_nr)) %>%
     ungroup() %>%
     
     # Change the format of variables
-    mutate(Country = as.factor(Country),
-           Alpha.3.code = as.factor(Alpha.3.code)
-           )
+    mutate(Alpha.3.code = as.factor(Alpha.3.code)) # %>% for the test
+    # filter(date <= "2020-03-01") # for the test
 
+  # Define the data used in the world (not reactive) for the map 
+  df_grp_world <- df_grp_all_country %>%
+    group_by(date) %>%
+    summarise(max_cc = sum(max_cc),
+              max_ac = sum(max_ac),
+              max_d = sum(max_d),
+              max_r = sum(max_r),
+              max_ncc = sum(max_ncc),
+              max_nac = sum(max_nac),
+              max_nd = sum(max_nd),
+              max_nr = sum(max_nr))
+  
+  # Define the data used in France (not reactive) for the infobox and barplot
+  df_grp_FRA <- df_grp_all_country %>%
+    filter(Alpha.3.code == "FRA")
+  
+  # List of the contry names
+  Country <- unique(df_grp_all_country$Country)
+  
+  # Date maximun
+  max_date <- max(df_grp_all_country$date)
+  
   # Remove files
   rm(df_confirmed)
   rm(df_death)
@@ -135,5 +157,11 @@ data <- function(){
   rm(df_mapping)
   
   # Results
-  return(df)
+  res = NULL
+  res$df_grp_world = df_grp_world
+  res$df_grp_all_country = df_grp_all_country
+  res$df_grp_FRA = df_grp_FRA 
+  res$Country = Country
+  res$max_date = max_date
+  return(res)
 }
