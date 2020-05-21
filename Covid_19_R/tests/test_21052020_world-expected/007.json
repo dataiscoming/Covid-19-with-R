@@ -1,0 +1,1181 @@
+{
+  "input": {
+    ".clientValue-default-plotlyCrosstalkOpts": {
+      "on": "plotly_click",
+      "persistent": false,
+      "dynamic": false,
+      "selectize": false,
+      "opacityDim": 0.2,
+      "selected": {
+        "opacity": 1
+      },
+      "debounce": 0,
+      "color": [
+
+      ]
+    },
+    "france-c1": "cc",
+    "other_country-c1": "cc",
+    "plotly_afterplot-A": "\"world-world_barplot\"",
+    "plotly_relayout-A": "{\"width\":775,\"height\":450}",
+    "side_nav_tab_info": "[{\"id\":\"world_map\",\"active\":true},{\"id\":\"france\",\"active\":false},{\"id\":\"other_country\",\"active\":false},{\"id\":\"about\",\"active\":false}]",
+    "world-c1": "nr",
+    "world-slider_date": "2020-03-01"
+  },
+  "output": {
+    "world-date_selector": {
+      "html": "<div class=\"form-group shiny-input-container\" style=\"width: 100%;\">\n  <label class=\"control-label\" for=\"world-slider_date\"><\/label>\n  <input class=\"js-range-slider\" id=\"world-slider_date\" data-min=\"1580515200000\" data-max=\"1583020800000\" data-from=\"1583020800000\" data-step=\"86400000\" data-grid=\"true\" data-grid-num=\"9.66666666666667\" data-grid-snap=\"false\" data-prettify-separator=\",\" data-prettify-enabled=\"true\" data-keyboard=\"true\" data-data-type=\"date\" data-time-format=\"%Y-%m-%d\"/>\n  <div class=\"slider-animate-container\">\n    <a href=\"#\" class=\"slider-animate-button\" data-target-id=\"world-slider_date\" data-interval=\"200\" data-loop=\"FALSE\">\n      <span class=\"play\">Play<\/span>\n      <span class=\"pause\">Pause<\/span>\n    <\/a>\n  <\/div>\n<\/div>",
+      "deps": [
+        {
+          "name": "ionrangeslider",
+          "version": "2.1.6",
+          "src": {
+            "href": "shared/ionrangeslider"
+          },
+          "meta": null,
+          "script": "js/ion.rangeSlider.min.js",
+          "stylesheet": [
+            "css/ion.rangeSlider.css",
+            "css/ion.rangeSlider.skinShiny.css"
+          ],
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "strftime",
+          "version": "0.9.2",
+          "src": {
+            "href": "shared/strftime"
+          },
+          "meta": null,
+          "script": "strftime-min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        }
+      ]
+    },
+    "world-wm1": {
+      "html": "<div class='text-right'><span style='font-size:28px'>87 664<\/span><\/div>",
+      "deps": [
+
+      ]
+    },
+    "world-wm2": {
+      "html": "<div class='text-right'><span style='font-size:28px'>41 968<\/span><\/div>",
+      "deps": [
+
+      ]
+    },
+    "world-wm3": {
+      "html": "<div class='text-right'><span style='font-size:28px'>2 990<\/span><\/div>",
+      "deps": [
+
+      ]
+    },
+    "world-wm4": {
+      "html": "<div class='text-right'><span style='font-size:28px'>42 706<\/span><\/div>",
+      "deps": [
+
+      ]
+    },
+    "world-world_barplot": {
+      "x": {
+        "layout": {
+          "margin": {
+            "b": 40,
+            "l": 60,
+            "t": 25,
+            "r": 10
+          },
+          "title": "Daily new recovered",
+          "yaxis": {
+            "domain": [
+              0,
+              1
+            ],
+            "automargin": true,
+            "title": "Number of cases",
+            "zeroline": false
+          },
+          "xaxis": {
+            "domain": [
+              0,
+              1
+            ],
+            "automargin": true,
+            "title": "date"
+          },
+          "hovermode": "closest",
+          "showlegend": false
+        },
+        "source": "A",
+        "config": {
+          "showSendToCloud": false
+        },
+        "data": [
+          {
+            "x": [
+              "2020-01-23",
+              "2020-01-24",
+              "2020-01-25",
+              "2020-01-26",
+              "2020-01-27",
+              "2020-01-28",
+              "2020-01-29",
+              "2020-01-30",
+              "2020-01-31",
+              "2020-02-01",
+              "2020-02-02",
+              "2020-02-03",
+              "2020-02-04",
+              "2020-02-05",
+              "2020-02-06",
+              "2020-02-07",
+              "2020-02-08",
+              "2020-02-09",
+              "2020-02-10",
+              "2020-02-11",
+              "2020-02-12",
+              "2020-02-13",
+              "2020-02-14",
+              "2020-02-15",
+              "2020-02-16",
+              "2020-02-17",
+              "2020-02-18",
+              "2020-02-19",
+              "2020-02-20",
+              "2020-02-21",
+              "2020-02-22",
+              "2020-02-23",
+              "2020-02-24",
+              "2020-02-25",
+              "2020-02-26",
+              "2020-02-27",
+              "2020-02-28",
+              "2020-02-29",
+              "2020-03-01"
+            ],
+            "y": [
+              2,
+              6,
+              3,
+              13,
+              9,
+              46,
+              19,
+              17,
+              79,
+              62,
+              188,
+              151,
+              229,
+              272,
+              363,
+              524,
+              605,
+              628,
+              702,
+              737,
+              467,
+              1145,
+              1763,
+              1337,
+              1470,
+              1718,
+              1769,
+              1768,
+              2056,
+              713,
+              3996,
+              509,
+              1834,
+              2678,
+              2469,
+              2893,
+              3434,
+              3071,
+              2934
+            ],
+            "marker": {
+              "color": "#41AB5D",
+              "line": {
+                "color": "rgba(31,119,180,1)"
+              }
+            },
+            "type": "bar",
+            "error_y": {
+              "color": "rgba(31,119,180,1)"
+            },
+            "error_x": {
+              "color": "rgba(31,119,180,1)"
+            },
+            "xaxis": "x",
+            "yaxis": "y",
+            "frame": null
+          }
+        ],
+        "highlight": {
+          "on": "plotly_click",
+          "persistent": false,
+          "dynamic": false,
+          "selectize": false,
+          "opacityDim": 0.2,
+          "selected": {
+            "opacity": 1
+          },
+          "debounce": 0
+        },
+        "shinyEvents": [
+          "plotly_hover",
+          "plotly_click",
+          "plotly_selected",
+          "plotly_relayout",
+          "plotly_brushed",
+          "plotly_brushing",
+          "plotly_clickannotation",
+          "plotly_doubleclick",
+          "plotly_deselect",
+          "plotly_afterplot",
+          "plotly_sunburstclick"
+        ],
+        "base_url": "https://plot.ly"
+      },
+      "evals": [
+
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "typedarray",
+          "version": "0.1",
+          "src": {
+            "href": "typedarray-0.1"
+          },
+          "meta": null,
+          "script": "typedarray.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "1.11.3",
+          "src": {
+            "href": "jquery-1.11.3"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.0.0",
+          "src": {
+            "href": "crosstalk-1.0.0"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "plotly-htmlwidgets-css",
+          "version": "1.49.4",
+          "src": {
+            "href": "plotly-htmlwidgets-css-1.49.4"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "plotly-htmlwidgets.css",
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "plotly-main",
+          "version": "1.49.4",
+          "src": {
+            "href": "plotly-main-1.49.4"
+          },
+          "meta": null,
+          "script": "plotly-latest.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        }
+      ]
+    },
+    "world-WorldMap": {
+      "x": {
+        "layout": {
+          "margin": {
+            "b": 40,
+            "l": 60,
+            "t": 25,
+            "r": 10
+          },
+          "mapType": "geo",
+          "title": "Map of new recovered",
+          "scene": {
+            "zaxis": {
+              "title": "show"
+            }
+          },
+          "geo": {
+            "domain": {
+              "x": [
+                0,
+                1
+              ],
+              "y": [
+                0,
+                1
+              ]
+            }
+          },
+          "hovermode": "closest",
+          "showlegend": false,
+          "legend": {
+            "yanchor": "top",
+            "y": 0.5
+          }
+        },
+        "source": "A",
+        "config": {
+          "showSendToCloud": false
+        },
+        "data": [
+          {
+            "colorbar": {
+              "title": "Number",
+              "ticklen": 2,
+              "tickprefix": "",
+              "limits": [
+                0,
+                2842
+              ],
+              "x": 1,
+              "y": 0.75,
+              "len": 0.5,
+              "lenmode": "fraction",
+              "yanchor": "top"
+            },
+            "colorscale": [
+              [
+                "0",
+                "#F7FCF5"
+              ],
+              [
+                "0.5",
+                "#41AB5D"
+              ],
+              [
+                "1",
+                "#00441B"
+              ]
+            ],
+            "showscale": true,
+            "z": [
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              2842,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              52,
+              0,
+              0,
+              0,
+              37,
+              0,
+              0,
+              0,
+              0,
+              0,
+              3,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            "text": [
+              "Afghanistan",
+              "Albania",
+              "Algeria",
+              "Andorra",
+              "Angola",
+              "Antigua and Barbuda",
+              "Argentina",
+              "Armenia",
+              "Australia",
+              "Austria",
+              "Azerbaijan",
+              "Bahamas",
+              "Bahrain",
+              "Bangladesh",
+              "Barbados",
+              "Belarus",
+              "Belgium",
+              "Belize",
+              "Benin",
+              "Bhutan",
+              "Bolivia",
+              "Bosnia and Herzegovina",
+              "Botswana",
+              "Brazil",
+              "Brunei",
+              "Bulgaria",
+              "Burkina Faso",
+              "Burundi",
+              "Cambodia",
+              "Cameroon",
+              "Canada",
+              "Cabo Verde",
+              "Central African Republic",
+              "Chad",
+              "Chile",
+              "China",
+              "Colombia",
+              "Comoros",
+              "Congo (Brazzaville)",
+              "Congo (Kinshasa)",
+              "Costa Rica",
+              "Cote d'Ivoire",
+              "Croatia",
+              "Cuba",
+              "Cyprus",
+              "Czechia",
+              "Denmark",
+              "Djibouti",
+              "Dominica",
+              "Dominican Republic",
+              "Ecuador",
+              "Egypt",
+              "El Salvador",
+              "Equatorial Guinea",
+              "Eritrea",
+              "Estonia",
+              "Ethiopia",
+              "Fiji",
+              "Finland",
+              "France",
+              "Gabon",
+              "Gambia",
+              "Georgia",
+              "Germany",
+              "Ghana",
+              "Greece",
+              "Grenada",
+              "Guatemala",
+              "Guinea",
+              "Guinea-Bissau",
+              "Guyana",
+              "Haiti",
+              "Holy See",
+              "Honduras",
+              "Hungary",
+              "Iceland",
+              "India",
+              "Indonesia",
+              "Iran",
+              "Iraq",
+              "Ireland",
+              "Israel",
+              "Italy",
+              "Jamaica",
+              "Japan",
+              "Jordan",
+              "Kazakhstan",
+              "Kenya",
+              "Korea, South",
+              "Kosovo",
+              "Kuwait",
+              "Kyrgyzstan",
+              "Laos",
+              "Latvia",
+              "Lebanon",
+              "Lesotho",
+              "Liberia",
+              "Libya",
+              "Liechtenstein",
+              "Lithuania",
+              "Luxembourg",
+              "North Macedonia",
+              "Madagascar",
+              "Malawi",
+              "Malaysia",
+              "Maldives",
+              "Mali",
+              "Malta",
+              "Mauritania",
+              "Mauritius",
+              "Mexico",
+              "Moldova",
+              "Monaco",
+              "Mongolia",
+              "Montenegro",
+              "Morocco",
+              "Mozambique",
+              "Burma",
+              "Namibia",
+              "Nepal",
+              "Netherlands",
+              "New Zealand",
+              "Nicaragua",
+              "Niger",
+              "Nigeria",
+              "Norway",
+              "Oman",
+              "Pakistan",
+              "Panama",
+              "Papua New Guinea",
+              "Paraguay",
+              "Peru",
+              "Philippines",
+              "Poland",
+              "Portugal",
+              "Qatar",
+              "Romania",
+              "Russia",
+              "Rwanda",
+              "Saint Kitts and Nevis",
+              "Saint Lucia",
+              "Saint Vincent and the Grenadines",
+              "San Marino",
+              "Sao Tome and Principe",
+              "Saudi Arabia",
+              "Senegal",
+              "Serbia",
+              "Seychelles",
+              "Sierra Leone",
+              "Singapore",
+              "Slovakia",
+              "Slovenia",
+              "Somalia",
+              "South Africa",
+              "Spain",
+              "Sri Lanka",
+              "Sudan",
+              "South Sudan",
+              "Suriname",
+              "Eswatini",
+              "Sweden",
+              "Switzerland",
+              "Syria",
+              "Taiwan*",
+              "Tajikistan",
+              "Tanzania",
+              "Thailand",
+              "Timor-Leste",
+              "Togo",
+              "Trinidad and Tobago",
+              "Tunisia",
+              "Turkey",
+              "Uganda",
+              "Ukraine",
+              "United Arab Emirates",
+              "United Kingdom",
+              "US",
+              "Uruguay",
+              "Uzbekistan",
+              "Venezuela",
+              "Vietnam",
+              "Western Sahara",
+              "Yemen",
+              "Zambia",
+              "Zimbabwe"
+            ],
+            "locations": [
+              "AFG",
+              "ALB",
+              "DZA",
+              "AND",
+              "AGO",
+              "ATG",
+              "ARG",
+              "ARM",
+              "AUS",
+              "AUT",
+              "AZE",
+              "BHS",
+              "BHR",
+              "BGD",
+              "BRB",
+              "BLR",
+              "BEL",
+              "BLZ",
+              "BEN",
+              "BTN",
+              "BOL",
+              "BIH",
+              "BWA",
+              "BRA",
+              "BRN",
+              "BGR",
+              "BFA",
+              "BDI",
+              "KHM",
+              "CMR",
+              "CAN",
+              "CPV",
+              "CAF",
+              "TCD",
+              "CHL",
+              "CHN",
+              "COL",
+              "COM",
+              "COG",
+              "COD",
+              "CRI",
+              "CIV",
+              "HRV",
+              "CUB",
+              "CYP",
+              "CZE",
+              "DNK",
+              "DJI",
+              "DMA",
+              "DOM",
+              "ECU",
+              "EGY",
+              "SLV",
+              "GNQ",
+              "ERI",
+              "EST",
+              "ETH",
+              "FJI",
+              "FIN",
+              "FRA",
+              "GAB",
+              "GMB",
+              "GEO",
+              "DEU",
+              "GHA",
+              "GRC",
+              "GRD",
+              "GTM",
+              "GIN",
+              "GNB",
+              "GUY",
+              "HTI",
+              "VAT",
+              "HND",
+              "HUN",
+              "ISL",
+              "IND",
+              "IDN",
+              "IRN",
+              "IRQ",
+              "IRL",
+              "ISR",
+              "ITA",
+              "JAM",
+              "JPN",
+              "JOR",
+              "KAZ",
+              "KEN",
+              "KOR",
+              "KSV",
+              "KWT",
+              "KGZ",
+              "LAO",
+              "LVA",
+              "LBN",
+              "LSO",
+              "LBR",
+              "LBY",
+              "LIE",
+              "LTU",
+              "LUX",
+              "MKD",
+              "MDG",
+              "MWI",
+              "MYS",
+              "MDV",
+              "MLI",
+              "MLT",
+              "MRT",
+              "MUS",
+              "MEX",
+              "MDA",
+              "MCO",
+              "MNG",
+              "MNE",
+              "MAR",
+              "MOZ",
+              "MMR",
+              "NAM",
+              "NPL",
+              "NLD",
+              "NZL",
+              "NIC",
+              "NER",
+              "NGA",
+              "NOR",
+              "OMN",
+              "PAK",
+              "PAN",
+              "PNG",
+              "PRY",
+              "PER",
+              "PHL",
+              "POL",
+              "PRT",
+              "QAT",
+              "ROU",
+              "RUS",
+              "RWA",
+              "KNA",
+              "LCA",
+              "VCT",
+              "SMR",
+              "STP",
+              "SAU",
+              "SEN",
+              "SRB",
+              "SYC",
+              "SLE",
+              "SGP",
+              "SVK",
+              "SVN",
+              "SOM",
+              "ZAF",
+              "ESP",
+              "LKA",
+              "SDN",
+              "SSD",
+              "SUR",
+              "SWZ",
+              "SWE",
+              "CHE",
+              "SYR",
+              "TWN",
+              "TJK",
+              "TZA",
+              "THA",
+              "TLS",
+              "TGO",
+              "TTO",
+              "TUN",
+              "TUR",
+              "UGA",
+              "UKR",
+              "ARE",
+              "GBR",
+              "USA",
+              "URY",
+              "UZB",
+              "VEN",
+              "VNM",
+              "ESH",
+              "YEM",
+              "ZMB",
+              "ZWE"
+            ],
+            "marker": {
+              "line": {
+                "colorbar": {
+                  "title": "",
+                  "ticklen": 2
+                },
+                "cmin": 0,
+                "cmax": 2842,
+                "colorscale": [
+                  [
+                    "0",
+                    "rgba(68,1,84,1)"
+                  ],
+                  [
+                    "0.0416666666666667",
+                    "rgba(70,19,97,1)"
+                  ],
+                  [
+                    "0.0833333333333333",
+                    "rgba(72,32,111,1)"
+                  ],
+                  [
+                    "0.125",
+                    "rgba(71,45,122,1)"
+                  ],
+                  [
+                    "0.166666666666667",
+                    "rgba(68,58,128,1)"
+                  ],
+                  [
+                    "0.208333333333333",
+                    "rgba(64,70,135,1)"
+                  ],
+                  [
+                    "0.25",
+                    "rgba(60,82,138,1)"
+                  ],
+                  [
+                    "0.291666666666667",
+                    "rgba(56,93,140,1)"
+                  ],
+                  [
+                    "0.333333333333333",
+                    "rgba(49,104,142,1)"
+                  ],
+                  [
+                    "0.375",
+                    "rgba(46,114,142,1)"
+                  ],
+                  [
+                    "0.416666666666667",
+                    "rgba(42,123,142,1)"
+                  ],
+                  [
+                    "0.458333333333333",
+                    "rgba(38,133,141,1)"
+                  ],
+                  [
+                    "0.5",
+                    "rgba(37,144,140,1)"
+                  ],
+                  [
+                    "0.541666666666667",
+                    "rgba(33,154,138,1)"
+                  ],
+                  [
+                    "0.583333333333333",
+                    "rgba(39,164,133,1)"
+                  ],
+                  [
+                    "0.625",
+                    "rgba(47,174,127,1)"
+                  ],
+                  [
+                    "0.666666666666667",
+                    "rgba(53,183,121,1)"
+                  ],
+                  [
+                    "0.708333333333333",
+                    "rgba(79,191,110,1)"
+                  ],
+                  [
+                    "0.75",
+                    "rgba(98,199,98,1)"
+                  ],
+                  [
+                    "0.791666666666667",
+                    "rgba(119,207,85,1)"
+                  ],
+                  [
+                    "0.833333333333333",
+                    "rgba(147,214,70,1)"
+                  ],
+                  [
+                    "0.875",
+                    "rgba(172,220,52,1)"
+                  ],
+                  [
+                    "0.916666666666667",
+                    "rgba(199,225,42,1)"
+                  ],
+                  [
+                    "0.958333333333333",
+                    "rgba(226,228,40,1)"
+                  ],
+                  [
+                    "1",
+                    "rgba(253,231,37,1)"
+                  ]
+                ],
+                "showscale": false,
+                "color": "rgba(190,190,190,1)",
+                "width": 0.5
+              }
+            },
+            "type": "choropleth",
+            "geo": "geo",
+            "frame": null
+          }
+        ],
+        "highlight": {
+          "on": "plotly_click",
+          "persistent": false,
+          "dynamic": false,
+          "selectize": false,
+          "opacityDim": 0.2,
+          "selected": {
+            "opacity": 1
+          },
+          "debounce": 0
+        },
+        "shinyEvents": [
+          "plotly_hover",
+          "plotly_click",
+          "plotly_selected",
+          "plotly_relayout",
+          "plotly_brushed",
+          "plotly_brushing",
+          "plotly_clickannotation",
+          "plotly_doubleclick",
+          "plotly_deselect",
+          "plotly_afterplot",
+          "plotly_sunburstclick"
+        ],
+        "base_url": "https://plot.ly"
+      },
+      "evals": [
+
+      ],
+      "jsHooks": [
+
+      ],
+      "deps": [
+        {
+          "name": "typedarray",
+          "version": "0.1",
+          "src": {
+            "href": "typedarray-0.1"
+          },
+          "meta": null,
+          "script": "typedarray.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "jquery",
+          "version": "1.11.3",
+          "src": {
+            "href": "jquery-1.11.3"
+          },
+          "meta": null,
+          "script": "jquery.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "crosstalk",
+          "version": "1.0.0",
+          "src": {
+            "href": "crosstalk-1.0.0"
+          },
+          "meta": null,
+          "script": "js/crosstalk.min.js",
+          "stylesheet": "css/crosstalk.css",
+          "head": null,
+          "attachment": null,
+          "package": null,
+          "all_files": true
+        },
+        {
+          "name": "plotly-htmlwidgets-css",
+          "version": "1.49.4",
+          "src": {
+            "href": "plotly-htmlwidgets-css-1.49.4"
+          },
+          "meta": null,
+          "script": null,
+          "stylesheet": "plotly-htmlwidgets.css",
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        },
+        {
+          "name": "plotly-main",
+          "version": "1.49.4",
+          "src": {
+            "href": "plotly-main-1.49.4"
+          },
+          "meta": null,
+          "script": "plotly-latest.min.js",
+          "stylesheet": null,
+          "head": null,
+          "attachment": null,
+          "all_files": false
+        }
+      ]
+    }
+  },
+  "export": {
+
+  }
+}
