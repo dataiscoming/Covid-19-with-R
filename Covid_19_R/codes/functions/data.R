@@ -7,15 +7,26 @@ data <- function(){
   
   # Import the data for john-hopkins-hospital
   PATH <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/"
-  df_confirmed <- read.csv(paste0(PATH,"time_series_covid19_confirmed_global.csv"), stringsAsFactors = FALSE)
-  df_death <- read.csv(paste0(PATH,"time_series_covid19_deaths_global.csv"), stringsAsFactors = FALSE)
-  df_recovered <- read.csv(paste0(PATH,"time_series_covid19_recovered_global.csv"), stringsAsFactors = FALSE)
+  #df_confirmed <- read.csv(paste0(PATH,"time_series_covid19_confirmed_global.csv"), stringsAsFactors = FALSE)
+  df_confirmed <- data.table::fread(paste0(PATH,"time_series_covid19_confirmed_global.csv"),header=T, sep=',',
+                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  setkey(df_confirmed, "Country/Region", "Province/State")
+  #df_death <- read.csv(paste0(PATH,"time_series_covid19_deaths_global.csv"), stringsAsFactors = FALSE)
+  df_death <- data.table::fread(paste0(PATH,"time_series_covid19_deaths_global.csv"),header=T, sep=',',
+                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  setkey(df_death, "Country/Region", "Province/State")
+  #df_recovered <- read.csv(paste0(PATH,"time_series_covid19_recovered_global.csv"), stringsAsFactors = FALSE)
+  df_recovered <- data.table::fread(paste0(PATH,"time_series_covid19_recovered_global.csv"),header=T, sep=',',
+                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  setkey(df_recovered, "Country/Region", "Province/State")
   rm(PATH)
   
   # Import mapping table for countries for the code ISO 3166 ALPHA-3
-  df_mapping <- read.csv(
-    "https://raw.githubusercontent.com/dataiscoming/Covid-19-with-R/master/input/countries_codes_and_coordinates.csv",
-    stringsAsFactors = FALSE)
+  #df_mapping <- read.csv(
+   # "https://raw.githubusercontent.com/dataiscoming/Covid-19-with-R/master/input/countries_codes_and_coordinates.csv",
+  #  stringsAsFactors = FALSE)
+  
+  df_mapping <- readRDS("./input/countries_codes_and_coordinates.rds")
   
   # Data manipulation
   df_grp_all_country <- 
@@ -27,6 +38,7 @@ data <- function(){
     # Join the confirmed data 
     left_join(df_confirmed %>% 
                 # Create the variables Date because there are one variable for each date
+                rename('Country.Region'='Country/Region', 'Province.State'='Province/State') %>%
                 group_by(Country.Region, Province.State) %>%
                 pivot_longer(cols = colnames(df_confirmed)[5:length(colnames(df_confirmed))], names_to = "date") %>%
                 select(-Lat,-Long) %>%
@@ -34,17 +46,15 @@ data <- function(){
                 # Sum of the variables (confirmed cases, death and recovered) grouped by the country names and not the province
                 group_by(Country.Region, date) %>%
                 summarise(max_cc = sum(value)) %>%
-                mutate(date2 = gsub("X","0",date),
-                       date3 = sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
-                       date4 = paste0(sapply(strsplit(date2,"[.]"), "[[" , 1),"-",
-                                      sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
-                                      "-",
-                                      sapply(strsplit(date2,"[.]"), "[[" , 3)),
-                       date = as.Date(date4,format="%m-%d-%y")
-                ) %>%
+                mutate(
+                  date = as.Date(
+                    paste0(
+                      substring(date,1,nchar(date)-2),
+                      "20",
+                      substring(date,nchar(date)-1,nchar(date)))
+                    ,format="%m/%d/%Y")) %>%
                 
                 # Select and arrange the data
-                select(-date2,-date3,-date4) %>%
                 arrange(Country.Region, date)
               ,
               by=c("Country"="Country.Region"),
@@ -52,40 +62,38 @@ data <- function(){
     
     # Join the death data with the same process than above
     left_join(df_death %>% 
+                rename('Country.Region'='Country/Region', 'Province.State'='Province/State') %>%
                 group_by(Province.State, Country.Region) %>%
                 pivot_longer(cols = colnames(df_death)[5:length(colnames(df_death))], names_to = "date") %>%
                 select(-Lat,-Long) %>%
                 group_by(Country.Region, date) %>%
                 summarise(max_d = sum(value)) %>%
-                mutate(date2 = gsub("X","0",date),
-                       date3 = sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
-                       date4 = paste0(sapply(strsplit(date2,"[.]"), "[[" , 1),"-",
-                                      sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
-                                      "-",
-                                      sapply(strsplit(date2,"[.]"), "[[" , 3)),
-                       date = as.Date(date4,format="%m-%d-%y")
-                ) %>%
-                select(-date2,-date3,-date4) %>%
+                mutate(
+                  date = as.Date(
+                    paste0(
+                      substring(date,1,nchar(date)-2),
+                      "20",
+                      substring(date,nchar(date)-1,nchar(date)))
+                    ,format="%m/%d/%Y")) %>%
                 arrange(Country.Region, date),
               by=c("Country"="Country.Region","date"="date"),
               keep=FALSE) %>%
     
     # Join the recovered data  with the same process than above
     left_join(df_recovered %>%
+                rename('Country.Region'='Country/Region', 'Province.State'='Province/State') %>%
                 group_by(Province.State, Country.Region) %>%
                 pivot_longer(cols = colnames(df_recovered)[5:length(colnames(df_recovered))], names_to = "date") %>%
                 select(-Lat,-Long) %>%
                 group_by(Country.Region, date) %>%
                 summarise(max_r = sum(value)) %>%
-                mutate(date2 = gsub("X","0",date),
-                       date3 = sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
-                       date4 = paste0(sapply(strsplit(date2,"[.]"), "[[" , 1),"-",
-                                      sprintf(fmt="%02d",as.numeric(sapply(strsplit(date2,"[.]"), "[[" , 2))),
-                                      "-",
-                                      sapply(strsplit(date2,"[.]"), "[[" , 3)),
-                       date = as.Date(date4,format="%m-%d-%y")
-                ) %>%
-                select(-date2,-date3,-date4) %>%
+                mutate(
+                  date = as.Date(
+                    paste0(
+                      substring(date,1,nchar(date)-2),
+                      "20",
+                      substring(date,nchar(date)-1,nchar(date)))
+                    ,format="%m/%d/%Y")) %>%
                 arrange(Country.Region, date),
               by=c("Country"="Country.Region","date"="date"),
               keep=FALSE) %>%

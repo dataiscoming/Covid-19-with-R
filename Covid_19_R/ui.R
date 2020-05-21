@@ -9,6 +9,7 @@ library("tidyr")
 library("dplyr")
 library("plotly")
 library("shinymaterial")
+library("data.table")
 
 # modules
 source("./codes/modules/world.R",encoding = "UTF-8")
