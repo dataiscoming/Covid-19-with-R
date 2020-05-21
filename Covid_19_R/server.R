@@ -10,6 +10,7 @@ library("tidyr")
 library("dplyr")
 library("plotly")
 library("shinymaterial")
+library("data.table")
 
 # modules
 source("./codes/functions/data.R",encoding = "UTF-8")
