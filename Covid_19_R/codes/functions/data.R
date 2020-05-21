@@ -125,8 +125,8 @@ data <- function(){
     ungroup() %>%
     
     # Change the format of variables
-    mutate(Alpha.3.code = as.factor(Alpha.3.code)) # %>% for the test
-    # filter(date <= "2020-03-01") # for the test
+    mutate(Alpha.3.code = as.factor(Alpha.3.code)) #%>% # for the test
+    #filter(date <= "2020-03-01") # for the test
 
   # Define the data used in the world (not reactive) for the map 
   df_grp_world <- df_grp_all_country %>%
