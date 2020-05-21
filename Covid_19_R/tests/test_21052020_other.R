@@ -1,0 +1,13 @@
+app <- ShinyDriver$new("../")
+app$snapshotInit("test_21052020_other")
+
+app$snapshot()
+app$snapshot()
+app$setInputs(`other_country-c1` = "r")
+app$snapshot()
+app$setInputs(`other_country-c1` = "nd")
+app$snapshot()
+app$setInputs(`other_country-choose_country` = "Japan")
+app$snapshot()
+app$setInputs(`other_country-c1` = "ac")
+app$snapshot()
