@@ -1,0 +1,5 @@
+To know the used packages
+sudo su - -c "R -e \"sessionInfo()\""
+
+To know the packages installed
+sudo su - -c "R -e \"installed.packages()\""
