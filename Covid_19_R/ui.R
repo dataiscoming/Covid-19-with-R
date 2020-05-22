@@ -11,6 +11,7 @@ library("plotly")
 library("shinymaterial")
 library("data.table")
 library("lubridate")
+library("shinycustomloader")
 
 # modules
 source("./codes/modules/world.R",encoding = "UTF-8")
@@ -62,7 +63,7 @@ shinyUI(material_page(
     # 
     div(
         id = "loading_page",
-        shinycustomloader::withLoader(h1(),type="html", loader="loader3")
+        withLoader(h1(),type="html", loader="loader3")
     ),
         
     #
