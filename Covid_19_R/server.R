@@ -7,10 +7,11 @@
 library("shinyjs")
 library("shiny")
 library("tidyr")
-library("dplyr")
+library("dplyr", warn.conflicts = FALSE)
 library("plotly")
 library("shinymaterial")
 library("data.table")
+library("lubridate")
 
 # modules
 source("./codes/functions/data.R",encoding = "UTF-8")
@@ -28,6 +29,10 @@ shinyServer(function(input, output){
     #################################################
     # Function Data
     df <- data()
+    
+    # Hiding the loading page and show the tabs
+    shinyjs::hide(id="loading_page",animType = "fade")
+    shinyjs::show(id="main_content")
     
     #################################################
     # Module world

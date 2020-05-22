@@ -6,10 +6,11 @@
 library("shinyjs")
 library("shiny")
 library("tidyr")
-library("dplyr")
+library("dplyr", warn.conflicts = FALSE)
 library("plotly")
 library("shinymaterial")
 library("data.table")
+library("lubridate")
 
 # modules
 source("./codes/modules/world.R",encoding = "UTF-8")
@@ -57,16 +58,27 @@ shinyUI(material_page(
             )
         )
     ),
-        
-    # Module World
-    worldUI('world'),
     
-    # Module France
-    franceUI('france'),
+    # 
+    div(
+        id = "loading_page",
+        shinycustomloader::withLoader(h1(),type="html", loader="loader3")
+    ),
         
-    # Module Other country
-    other_countryUI('other_country'),
+    #
+    hidden(
+        div(id = "main_content",
+            
+        # Module World
+        worldUI('world'),
+    
+        # Module France
+        franceUI('france'),
         
-    # Module About
-    aboutUI('about')
+        # Module Other country
+        other_countryUI('other_country'),
+        
+        # Module About
+        aboutUI('about')  )
+    )
 ))
