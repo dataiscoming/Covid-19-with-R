@@ -29,8 +29,7 @@ aboutUI <- function(id) {
         width = 10,
         offset = 1,
         h2("Data is coming"),
-        p("Data is coming is a blog about data Science, Game Of Thrones and other hot topics."),
-        a(href="http://www.dataiscoming.fr","Data is coming blog"),
+        HTML("<p><a href='http://www.dataiscoming.fr'>Data is coming</a> is a blog about data Science, Game Of Thrones and other hot topics.</p>"),
         tags$div(
           HTML("<p>All the codes are available at this <a href='https://github.com/dataiscoming/Covid-19-with-R'>github repository</a>.</p>")
         )

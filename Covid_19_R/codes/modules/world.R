@@ -18,6 +18,7 @@ source("./codes/functions/reactive_title.R",encoding = "UTF-8")
 source("./codes/functions/df_max_date.R",encoding = "UTF-8")
 
 # Define the UI
+
 worldUI <- function(id) {
   ns <- NS(id)
   
@@ -173,6 +174,11 @@ world <- function(input, output, session, data = df){
   
   # World map definition
   output$WorldMap <- renderPlotly({
+    
+    # Message while data is loading
+    validate(
+      need(is.Date(input$slider_date), "Data is loading")
+    )
 
     # Reactive variables Needed : data df2, the title of the plot
     df2<-df2()
@@ -201,11 +207,11 @@ world <- function(input, output, session, data = df){
   
   # Define the REACTIVE variable to show, thanks to the selected input in the UI
   df_BP <- reactive({reactive_var(data_frame = data$df_grp_world, input = input$c1)})
-  
+
   # Define the REACTIVE colors of the bars in the barplot
   color <- reactive({reactive_color(input = input$c1)})
   
   # barplot definition
   output$world_barplot <- renderPlotly({reactive_barplot(df = df_BP(), col =color(), title=title())})
-  
+
 } # End of server definition

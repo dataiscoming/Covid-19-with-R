@@ -7,28 +7,22 @@ data <- function(){
   
   # Import the data for john-hopkins-hospital
   PATH <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/"
-  #df_confirmed <- read.csv(paste0(PATH,"time_series_covid19_confirmed_global.csv"), stringsAsFactors = FALSE)
   df_confirmed <- data.table::fread(paste0(PATH,"time_series_covid19_confirmed_global.csv"),header=T, sep=',',
                     stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
   setkey(df_confirmed, "Country/Region", "Province/State")
-  #df_death <- read.csv(paste0(PATH,"time_series_covid19_deaths_global.csv"), stringsAsFactors = FALSE)
   df_death <- data.table::fread(paste0(PATH,"time_series_covid19_deaths_global.csv"),header=T, sep=',',
                     stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
   setkey(df_death, "Country/Region", "Province/State")
-  #df_recovered <- read.csv(paste0(PATH,"time_series_covid19_recovered_global.csv"), stringsAsFactors = FALSE)
   df_recovered <- data.table::fread(paste0(PATH,"time_series_covid19_recovered_global.csv"),header=T, sep=',',
                     stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
   setkey(df_recovered, "Country/Region", "Province/State")
   rm(PATH)
   
   # Import mapping table for countries for the code ISO 3166 ALPHA-3
-  #df_mapping <- read.csv(
-   # "https://raw.githubusercontent.com/dataiscoming/Covid-19-with-R/master/input/countries_codes_and_coordinates.csv",
-  #  stringsAsFactors = FALSE)
-  
   df_mapping <- readRDS("./input/countries_codes_and_coordinates.rds")
   
   # Data manipulation
+  options(warn = -1)
   df_grp_all_country <- 
     # Select only needed variables in df_mapping
     df_mapping %>% 
@@ -135,6 +129,7 @@ data <- function(){
     # Change the format of variables
     mutate(Alpha.3.code = as.factor(Alpha.3.code)) #%>% # for the test
     #filter(date <= "2020-03-01") # for the test
+  options(warn = 0)
 
   # Define the data used in the world (not reactive) for the map 
   df_grp_world <- df_grp_all_country %>%
