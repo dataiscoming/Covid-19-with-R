@@ -5,18 +5,53 @@
 
 data <- function(){
   
-  # Import the data for john-hopkins-hospital
-  PATH <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/"
-  df_confirmed <- data.table::fread(paste0(PATH,"time_series_covid19_confirmed_global.csv"),header=T, sep=',',
+  #mtry1 <- tryCatch(read.csv(paste0(PATH,"time_series_covid19_confirmed_global.csv")), silent = TRUE)
+  #mtry2 <- try(read.csv(paste0(PATH,"time_series_covid19_deaths_global.csv")), silent = TRUE)
+  #mtry3 <- try(read.csv(paste0(PATH,"time_series_covid19_recovered_global.csv")), silent = TRUE)
+  
+  #if(class(mtry) == "try-error"){
+  #  read.csv(paste0(PATH,"time_series_covid19_confirmed_global.csv"))
+  #}else{
+  #  message("File doesn't exist, please check")
+  #}
+  
+  #url.exists(paste0(PATH,"time_series_covid19_confirmed_global.csv"))
+  
+  df_confirmed <- fread("./input/time_series_covid19_confirmed_global.csv",header=T, sep=',',
+                        stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  
+  if(class(df_confirmed)[1] == "data.table"){
+    print("Import data confirmed case OK.")
+  } else {
+    print("Import data confirmed case KO !")
+  }
+  
+  df_confirmed <- fread("./input/time_series_covid19_confirmed_global.csv",header=T, sep=',',
                     stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  
+  df_death <- fread("./input/time_series_covid19_deaths_global.csv",header=T, sep=',',
+                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+ 
+  df_recovered <- fread("./input/time_series_covid19_recovered_global.csv",header=T, sep=',',
+                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  
+  
   setkey(df_confirmed, "Country/Region", "Province/State")
-  df_death <- data.table::fread(paste0(PATH,"time_series_covid19_deaths_global.csv"),header=T, sep=',',
-                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
   setkey(df_death, "Country/Region", "Province/State")
-  df_recovered <- data.table::fread(paste0(PATH,"time_series_covid19_recovered_global.csv"),header=T, sep=',',
-                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
   setkey(df_recovered, "Country/Region", "Province/State")
-  rm(PATH)
+  
+  # Import the data for john-hopkins-hospital
+  #PATH <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/"
+  #df_confirmed <- fread(paste0(PATH,"time_series_covid19_confirmed_global.csv"),header=T, sep=',',
+  #                  stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  #setkey(df_confirmed, "Country/Region", "Province/State")
+  #df_death <- fread(paste0(PATH,"time_series_covid19_deaths_global.csv"),header=T, sep=',',
+  #                  stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  #setkey(df_death, "Country/Region", "Province/State")
+  #df_recovered <- fread(paste0(PATH,"time_series_covid19_recovered_global.csv"),header=T, sep=',',
+  #                  stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  #setkey(df_recovered, "Country/Region", "Province/State")
+  #rm(PATH)
   
   # Import mapping table for countries for the code ISO 3166 ALPHA-3
   df_mapping <- readRDS("./input/countries_codes_and_coordinates.rds")

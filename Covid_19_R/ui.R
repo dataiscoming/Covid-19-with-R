@@ -12,6 +12,7 @@ library("shinymaterial")
 library("data.table")
 library("lubridate")
 library("shinycustomloader")
+library("RCurl")
 
 # modules
 source("./codes/modules/world.R",encoding = "UTF-8")
@@ -22,7 +23,7 @@ source("./codes/modules/about.R",encoding = "UTF-8")
 # UI definition
 shinyUI(material_page(
     
-    shinyjs::useShinyjs(),
+    useShinyjs(),
     
     # Nav bar at the rop
     title = "Covid-19",

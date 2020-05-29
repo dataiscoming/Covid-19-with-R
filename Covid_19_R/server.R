@@ -13,6 +13,7 @@ library("shinymaterial")
 library("data.table")
 library("lubridate")
 library("shinycustomloader")
+library("RCurl")
 
 # modules
 source("./codes/functions/data.R",encoding = "UTF-8")
@@ -32,7 +33,7 @@ shinyServer(function(input, output){
     df <- data()
     
     # Hiding the loading page and show the tabs
-    shinyjs::useShinyjs()
+    useShinyjs()
     shinyjs::hide(id="loading_page",animType = "fade")
     shinyjs::show(id="main_content")
     
