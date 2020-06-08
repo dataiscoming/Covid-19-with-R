@@ -7,7 +7,7 @@ data <- function(){
   
   log_file <- "applog.log"
   file_logger <- logger("INFO", appenders = file_appender(log_file))
-  info(file_logger, paste("Begin the data function."))
+  info(file_logger, paste("4 - Begin the data function."))
   
   print("data import begin")
   
@@ -40,7 +40,7 @@ data <- function(){
  
   df_recovered <- fread("./input/time_series_covid19_recovered_global.csv",header=T, sep=',',
                     stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
-  info(file_logger, paste("Finish the importing data from csv."))
+  info(file_logger, paste("5 - inish the importing data from csv."))
   
   setkey(df_confirmed, "Country/Region", "Province/State")
   setkey(df_death, "Country/Region", "Province/State")
@@ -207,6 +207,6 @@ data <- function(){
   res$df_grp_FRA = df_grp_FRA 
   res$Country = Country
   res$max_date = max_date
-  info(file_logger, paste("Finish the data function."))
+  info(file_logger, paste("6 - Finish the data function."))
   return(res)
 }
