@@ -32,4 +32,6 @@ sudo su - -c "R -e \"install.packages('lubridate', repos='https://cran.rstudio.c
 
 sudo su - -c "R -e \"install.packages('shinycustomloader', repos='https://cran.rstudio.com/')\""
 
-sudo su - -c "R -e \"install.packages('Rcurl', repos='https://cran.rstudio.com/')\""
+sudo su - -c "R -e \"install.packages('RCurl', repos='https://cran.rstudio.com/')\""
+
+sudo su - -c "R -e \"install.packages('log4r', repos='https://cran.rstudio.com/')\""
