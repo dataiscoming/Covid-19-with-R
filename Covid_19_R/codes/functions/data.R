@@ -60,7 +60,7 @@ data <- function(){
   #rm(PATH)
   
   # Import mapping table for countries for the code ISO 3166 ALPHA-3
-  df_mapping <- readRDS("./input/countries_codes_and_coordinates.rds")
+  df_mapping <- read.csv("./input/countries_codes_and_coordinates.csv")
   
   # Data manipulation
   options(warn = -1)

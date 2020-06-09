@@ -20,7 +20,7 @@ file_logger <- logger("INFO", appenders = file_appender(log_file))
 info(file_logger, paste("1 - Begin the app - ready to get files."))
 
 # modules
-source("./codes/functions/data.R",encoding = "UTF-8")
+source("./codes/functions/data2.R",encoding = "UTF-8")
 #source("./codes/modules/world.R",encoding = "UTF-8")
 #source("./codes/modules/france.R",encoding = "UTF-8")
 #source("./codes/modules/other_country.R",encoding = "UTF-8")
