@@ -16,10 +16,10 @@ library("RCurl")
 library("log4r")
 
 # modules
-#source("./codes/modules/world.R",encoding = "UTF-8")
-#source("./codes/modules/france.R",encoding = "UTF-8")
-#source("./codes/modules/other_country.R",encoding = "UTF-8")
-#source("./codes/modules/about.R",encoding = "UTF-8")
+source("./codes/modules/world.R",encoding = "UTF-8")
+source("./codes/modules/france.R",encoding = "UTF-8")
+source("./codes/modules/other_country.R",encoding = "UTF-8")
+source("./codes/modules/about.R",encoding = "UTF-8")
 
 # UI definition
 shinyUI(material_page(
@@ -70,19 +70,18 @@ shinyUI(material_page(
         
     #
     hidden(
-        div(id = "main_content"#,
+        div(id = "main_content",
             
         # Module World
-        #worldUI('world'),
+        worldUI('world'),
     
         # Module France
-        #franceUI('france'),
+        franceUI('france'),
         
         # Module Other country
-        #other_countryUI('other_country'),
+        other_countryUI('other_country'),
         
         # Module About
-        #aboutUI('about')  
-        )
+        aboutUI('about')  )
     )
 ))

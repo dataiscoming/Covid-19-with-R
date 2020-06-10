@@ -1,67 +1,32 @@
 # Function data :  
 # this module get the data from John Hopkins github repository
 # And join all dataframe into one data frame 
-# It creates sepcific dataframe for every modules and store a list a the countries and the date maximum
+# It creates specific dataframe for every modules and store a list a the countries and the date maximum
 
 data <- function(){
   
-  log_file <- "applog.log"
-  file_logger <- logger("INFO", appenders = file_appender(log_file))
-  info(file_logger, paste("4 - Begin the data function."))
-  
-  print("data import begin")
-  
-  #mtry1 <- tryCatch(read.csv(paste0(PATH,"time_series_covid19_confirmed_global.csv")), silent = TRUE)
-  #mtry2 <- try(read.csv(paste0(PATH,"time_series_covid19_deaths_global.csv")), silent = TRUE)
-  #mtry3 <- try(read.csv(paste0(PATH,"time_series_covid19_recovered_global.csv")), silent = TRUE)
-  
-  #if(class(mtry) == "try-error"){
-  #  read.csv(paste0(PATH,"time_series_covid19_confirmed_global.csv"))
-  #}else{
-  #  message("File doesn't exist, please check")
-  #}
-  
-  #url.exists(paste0(PATH,"time_series_covid19_confirmed_global.csv"))
-  
-  #df_confirmed <- fread("./input/time_series_covid19_confirmed_global.csv",header=T, sep=',',
-   #                     stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
-  
-  #if(class(df_confirmed)[1] == "data.table"){
-   # print("Import data confirmed case OK.")
-  #} else {
-  #  print("Import data confirmed case KO !")
-  #}
-  
-  #df_confirmed <- fread("./input/time_series_covid19_confirmed_global.csv",header=T, sep=',',
-   #                 stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
-  
-  df_death <- fread("./input/time_series_covid19_deaths_global.csv",header=T, sep=',',
-                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
- 
-  df_recovered <- fread("./input/time_series_covid19_recovered_global.csv",header=T, sep=',',
-                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
-  info(file_logger, paste("5 - Finish the importing data from csv."))
-  
-  #setkey(df_confirmed, "Country/Region", "Province/State")
-  setkey(df_death, "Country/Region", "Province/State")
-  setkey(df_recovered, "Country/Region", "Province/State")
+  # For logging if there is a bug
+  #log_file <- "applog.log"
+  #file_logger <- logger("INFO", appenders = file_appender(log_file))
+  #info(file_logger, paste("4 - Begin the data function."))
   
   # Import the data for john-hopkins-hospital
   PATH <- "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/"
   df_confirmed <- fread(paste0(PATH,"time_series_covid19_confirmed_global.csv"),header=T, sep=',',
                     stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
   setkey(df_confirmed, "Country/Region", "Province/State")
-  #df_death <- fread(paste0(PATH,"time_series_covid19_deaths_global.csv"),header=T, sep=',',
-  #                  stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
-  #setkey(df_death, "Country/Region", "Province/State")
-  #df_recovered <- fread(paste0(PATH,"time_series_covid19_recovered_global.csv"),header=T, sep=',',
-  #                  stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
-  #setkey(df_recovered, "Country/Region", "Province/State")
-  #rm(PATH)
+  df_death <- fread(paste0(PATH,"time_series_covid19_deaths_global.csv"),header=T, sep=',',
+                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  setkey(df_death, "Country/Region", "Province/State")
+  df_recovered <- fread(paste0(PATH,"time_series_covid19_recovered_global.csv"),header=T, sep=',',
+                    stringsAsFactors = FALSE,data.table = TRUE,showProgress = FALSE)
+  setkey(df_recovered, "Country/Region", "Province/State")
+  rm(PATH)
   
   # Import mapping table for countries for the code ISO 3166 ALPHA-3
-  df_mapping <- read.csv("./input/countries_codes_and_coordinates.csv")
-  info(file_logger, paste("6 - Begin the data function."))
+  df_mapping <- fread("./input/countries_codes_and_coordinates.csv",header=T, sep=',', stringsAsFactors = FALSE,
+                      data.table=TRUE, showProgress = FALSE)
+  #info(file_logger, paste("6 - Begin the data function."))
   
   # Data manipulation
   options(warn = -1)
@@ -208,6 +173,6 @@ data <- function(){
   res$df_grp_FRA = df_grp_FRA 
   res$Country = Country
   res$max_date = max_date
-  info(file_logger, paste("6 - Finish the data function."))
+  #info(file_logger, paste("6 - Finish the data function."))
   return(res)
 }
