@@ -1,4 +1,4 @@
-![](img/img_app.png)
+![](Img/img_app.png)
 
 # Covid-19 Dashboard with R Shiny
 
