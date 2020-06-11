@@ -5,6 +5,6 @@ account: dataiscoming
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 2071491
-bundleId: 3177450
+bundleId: 3251294
 url: https://dataiscoming.shinyapps.io/Covid-19/
-when: 1590124844.41781
+when: 1591787662.70875

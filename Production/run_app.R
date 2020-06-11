@@ -32,3 +32,8 @@ rsconnect::deployApp(account = 'dataiscoming',
                      appDir ="D:/#1_ART/2020/week_X_Covid_19_with_R/COVID_19_R",
                      appName = "Covid-19",
                      appTitle = "Covid-19")
+
+###################################################################
+#creating a shortcut
+library(shinyShortcut)
+shinyShortcut()
